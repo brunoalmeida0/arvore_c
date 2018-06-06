@@ -59,23 +59,23 @@ bool busca(TIPOCHAVE ch, PONT raiz){
 
 PONT buscaParaApagarNo(PONT raiz, TIPOCHAVE ch, PONT *pai){
 
-    PONT atual = raiz;
-    *pai = NULL;
+    PONT atual = raiz; //Atual é um ponteiro para a raiz passada
+    *pai = NULL; //O valor do ponteiro pai receberá NULL
 
-    while(atual){
+    while(atual){ //Enquanto o atual for válido
 
-        if(atual->chave == ch){
+        if(atual->chave == ch){ //Se achar a chave, ela será retornada
             return(atual);
         }
 
-        *pai = atual;
+        *pai = atual; //O valor onde o ponteiro pai está apontando recebe atual
 
-        if(ch < atual->chave){
-            atual = atual->esq;
+        if(ch < atual->chave){ //Se a chave for menor que a chave do atual
+            atual = atual->esq; //navega para a esquerda
         } else {
             atual = atual->dir;
         }
-    }
+    } //Neste ponto, o valor do ponteiro pai será o valor que está acima do ponteiro atual, que será o que será retornado
         return(NULL);
 
 }
@@ -84,35 +84,35 @@ PONT removeNo(PONT raiz, TIPOCHAVE ch){
 
     PONT pai, no, p, q;
 
-    no = buscaParaApagarNo(raiz, ch, &pai);
+    no = buscaParaApagarNo(raiz, ch, &pai); //no será o valor a ser apagado
 
-    if(no == NULL) return(raiz);
+    if(no == NULL) return(raiz); //se no for NULL, será retornada a raiz
 
-    if(!no->esq || !no->dir){
-        if(!no->esq){
-            q = no->dir;
-        } else {
-            q = no->esq;
+    if(!no->esq || !no->dir){ //se não houver ou esquerda ou direita como filho de no...
+        if(!no->esq){ //se não houver esquerda
+            q = no->dir; //q receberá o valor da direita do no
+        } else { //se não houver direita
+            q = no->esq; //q receberá o valor da esquerda do no
         }
-    } else {
-        p = no;
-        q = no->esq;
+    } else { //Caso haja direita e esquerda como filho de no
+        p = no; //p receberá no
+        q = no->esq; //q receberá o valor a esquerda do no e será a chave q irá substituir a excluida
 
-        while(q->dir){
+        while(q->dir){ //PARA IDENTIFICAR O VALOR MAIS A ESQUERDA DA SUBARVORE DA DIREITA
             p = q;
-            q = no->dir;
+            q = p->dir;
         }
 
-        if(p != no){
-            p->dir = q->esq;
+        if(p != no){ //se o p não for o no
+            p->dir = q->esq; //
             q->esq = no->esq;
         }
         q->dir = no->dir;
     }
 
-    if(!pai){
-        free(no);
-        return(q);
+    if(!pai){ //Se não houver pai é porque o no é a raiz
+        free(no); //ele será eliminado
+        return(q); //o valor de q tomará seu lugar
     }
 
     if (ch < pai->chave){
