@@ -43,11 +43,11 @@ PONT adiciona(PONT raiz, PONT no){ //Passa a raiz e o nó com a chave nova
     return(raiz);
 }
 
-PONT busca(TIPOCHAVE ch, PONT raiz){
+bool busca(TIPOCHAVE ch, PONT raiz){
 
     if(raiz == NULL) return(NULL);
 
-    if(raiz->chave == ch) return(raiz);
+    if(raiz->chave == ch) return(true);
 
     if(raiz->chave > ch){
         return(busca(ch, raiz->esq));
@@ -75,9 +75,8 @@ PONT buscaParaApagarNo(PONT raiz, TIPOCHAVE ch, PONT *pai){
         } else {
             atual = atual->dir;
         }
-
-        return(NULL);
     }
+        return(NULL);
 
 }
 
@@ -156,16 +155,16 @@ int menu(){
 
     int op;
 
-    printf("Árvore Binária de Busca\n\n");
+    printf("Arvore Binaria de Busca\n\n");
     printf("1 - Adicionar dado\n");
     printf("2 - Remover dado\n");
-    printf("3 - Visualizar Árvore\n");
+    printf("3 - Visualizar Arvore\n");
     printf("4 - Ver quantidade de itens\n");
-    printf("5 - Pesquisar na árvore\n\n");
+    printf("5 - Pesquisar na Arvore\n\n");
 
     printf("Opcao: ");
     scanf("%i", &op);
-    
+
     system("cls");
     return(op);
 
@@ -189,6 +188,7 @@ int main(){
                 no = criaNovoNo(chaveAux);
 
                 raiz = adiciona(raiz, no);
+                system("cls");
             } break;
 
             case 2:{
@@ -196,33 +196,40 @@ int main(){
                 scanf("%d", &chaveAux);
 
                 removeNo(raiz, chaveAux);
+                system("cls");
             } break;
 
             case 3:{
                 exibirArvore(raiz);
+                printf("\n");
+                system("pause");
+                system("cls");
             } break;
 
             case 4:{
                 printf("%d\n",contagemNos(raiz));
+                system("pause");
+                system("cls");
             } break;
 
             case 5:{
                 printf("Chave para buscar: ");
                 scanf("%i", &chaveAux);
+
+                bool achou = busca(chaveAux, raiz);
+
+                if(achou == true){
+                    printf("Achou\n");
+                } else {
+                    printf("Nao achou\n");
+                }
+                system("pause");
+                system("cls");
             } break;
 
             default:
                 break;
         }
-     //O ponteiro raiz está apontando para NULL
 
-     //O ponteiro no está apontando para a estrutura que foi criada no método
-
-     /*Passa a raiz e o endereço da memória que o no
-    está apontando, ou seja, a estrutura criada*/
     }
-    //PONT pesquisa = busca(23, raiz); //Passa a chave e o ponteiro para a raiz
-
-
-
 }
